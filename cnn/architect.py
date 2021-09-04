@@ -32,29 +32,41 @@ class Architect(object):
         logits = self.model(input, self.gumbel)
         loss = self.criterion(logits, target)
 
+        arch_parameters = self.model.module.arch_parameters() if self.is_multi_gpu else self.model.arch_parameters()
+        arch_theta = _concat(arch_parameters).data
+
+        arch_parameters = self.model.module.arch_parameters() if self.is_multi_gpu else self.model.arch_parameters()
+        arch_params = list(map(id, arch_parameters))
         model_parameters = self.model.module.parameters() if self.is_multi_gpu else self.model.parameters()
-        theta = _concat(model_parameters).data
+        model_params = filter(lambda p: id(p) not in arch_params, model_parameters) 
+        model_theta = _concat(model_params).data
         
+        arch_parameters = self.model.module.arch_parameters() if self.is_multi_gpu else self.model.arch_parameters()
+        arch_params = list(map(id, arch_parameters))
         model_parameters = self.model.module.parameters() if self.is_multi_gpu else self.model.parameters()
+        model_params = filter(lambda p: id(p) not in arch_params, model_parameters) 
         try:
-            moment = _concat(network_optimizer.state[v]['momentum_buffer'] for v in model_parameters).mul_(
+            moment = _concat(network_optimizer.state[v]['momentum_buffer'] for v in model_params).mul_(
                 self.network_momentum)
         except:
-            moment = torch.zeros_like(theta)
+            moment = torch.zeros_like(model_theta)
 
-        model_parameters = self.model.module.parameters() if self.is_multi_gpu else self.model.parameters()        
+        arch_parameters = self.model.module.arch_parameters() if self.is_multi_gpu else self.model.arch_parameters()
+        arch_params = list(map(id, arch_parameters))
+        model_parameters = self.model.module.parameters() if self.is_multi_gpu else self.model.parameters()
+        model_params = list(filter(lambda p: id(p) not in arch_params, model_parameters))         
         # using gumbel-softmax:
         # for unused ops there will be no gradient and this needs to be handled
         if self.gumbel:
             dtheta = _concat([grad_i + self.network_weight_decay * theta_i if grad_i is not None
                               else self.network_weight_decay * theta_i
                               for grad_i, theta_i in
-                              zip(torch.autograd.grad(loss, model_parameters, allow_unused=True), model_parameters)])
+                              zip(torch.autograd.grad(loss, model_params, allow_unused=True), model_params)])
         # not using gumbel-softmax
         else:
             dtheta = _concat([grad_i + self.network_weight_decay * theta_i
                               for grad_i, theta_i in
-                              zip(torch.autograd.grad(loss, model_parameters), model_parameters)])
+                              zip(torch.autograd.grad(loss, model_params), model_params)])
 
         # Adas
         if self.adas:
@@ -70,15 +82,16 @@ class Architect(object):
                 lr = lr_vector[iteration_p]
                 d_p = moment[offset_p: offset_p + p_length] + \
                       dtheta[offset_dp: offset_dp + p_length]
-                theta[offset_p: offset_p + p_length].sub_(d_p, alpha=lr)
+                model_theta[offset_p: offset_p + p_length].sub_(d_p, alpha=lr)
                 offset_p += p_length
                 offset_dp += p_length
                 iteration_p += 1
-            unrolled_model = self._construct_model_from_theta(theta)
         # original DARTS
         else:
-            unrolled_model = self._construct_model_from_theta(theta.sub(lr_vector, moment + dtheta), None)
+            model_theta.sub_(lr_vector, moment + dtheta)
         
+        theta = torch.cat([arch_theta, model_theta])
+        unrolled_model = self._construct_model_from_theta(theta)
         return unrolled_model
 
     def step(self, input_train, target_train, input_valid, target_valid, lr, network_optimizer, unrolled):

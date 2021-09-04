@@ -32,6 +32,9 @@ parser = argparse.ArgumentParser("adaptive_darts")
 parser.add_argument('--data', type=str, default='../data', help='location of the data corpus')
 parser.add_argument('--dataset', type=str, default='ADP-Release1', help='valid datasets: cifar10, cifar100, ADP-Release1')
 parser.add_argument('--train_portion', type=float, default=0.5, help='portion of training data')
+# color augmentation
+parser.add_argument('--color_aug', action='store_true', default=False, help='use color augmentation')
+parser.add_argument('--color_distortion', type=float, default=0.3, help='color distortion param')
 # For ADP dataset only
 parser.add_argument('--adp_level', type=str, default='L3', help='ADP level')
 parser.add_argument('--adp_size', type=int, default=64, help='ADP image size')
@@ -72,7 +75,7 @@ parser.add_argument('--node', type=int, default=4, help='number of nodes in a ce
 parser.add_argument('--report_freq', type=float, default=50, help='report frequency')
 parser.add_argument('--model_path', type=str, default='saved_models', help='path to save the model')
 parser.add_argument('--save', type=str, default='EXP', help='experiment name')
-parser.add_argument('--seed', type=int, default=2, help='random seed')
+parser.add_argument('--seed', type=int, default=0, help='random seed')
 parser.add_argument('--file_name', type=str, default='_', help='metrics and weights data file name')
 
 args = parser.parse_args()
