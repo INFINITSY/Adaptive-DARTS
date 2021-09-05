@@ -171,9 +171,9 @@ def _data_transforms_adp(args):
         ColorAugmentation = ColorDistortion(args.color_distortion)
         train_transform.transforms.insert(3, ColorAugmentation)
 
-    if args.adp_size != 272:
+    if args.image_size != 272:
         train_transform.transforms.insert(0, transforms.Resize(
-            (args.adp_size, args.adp_size), interpolation=transforms.functional.InterpolationMode.BICUBIC))
+            (args.image_size, args.image_size), interpolation=transforms.functional.InterpolationMode.BICUBIC))
 
     if args.cutout:
         train_transform.transforms.append(Cutout(args.cutout_length))
@@ -184,9 +184,9 @@ def _data_transforms_adp(args):
         transforms.Normalize(ADP_MEAN, ADP_STD)
     ])
 
-    if args.adp_size != 272:
+    if args.image_size != 272:
         valid_transform.transforms.insert(0, transforms.Resize(
-            (args.adp_size, args.adp_size), interpolation=transforms.functional.InterpolationMode.BICUBIC))
+            (args.image_size, args.image_size), interpolation=transforms.functional.InterpolationMode.BICUBIC))
 
     return train_transform, valid_transform
 
@@ -214,9 +214,9 @@ def _data_transforms_bcss(args):
         ColorAugmentation = ColorDistortion(args.color_distortion)
         train_transform.transforms.insert(3, ColorAugmentation)
 
-    if args.bcss_size != 272:
+    if args.image_size != 272:
         train_transform.transforms.insert(0, transforms.Resize(
-            (args.bcss_size, args.bcss_size), interpolation=transforms.functional.InterpolationMode.BICUBIC))
+            (args.image_size, args.image_size), interpolation=transforms.functional.InterpolationMode.BICUBIC))
 
     if args.cutout:
         train_transform.transforms.append(Cutout(args.cutout_length))
@@ -227,9 +227,9 @@ def _data_transforms_bcss(args):
         transforms.Normalize(BCSS_MEAN, BCSS_STD)
     ])
 
-    if args.bcss_size != 272:
+    if args.image_size != 272:
         valid_transform.transforms.insert(0, transforms.Resize(
-            (args.bcss_size, args.bcss_size), interpolation=transforms.functional.InterpolationMode.BICUBIC))
+            (args.image_size, args.image_size), interpolation=transforms.functional.InterpolationMode.BICUBIC))
 
     return train_transform, valid_transform
 
@@ -257,9 +257,9 @@ def _data_transforms_crc(args):
         ColorAugmentation = ColorDistortion(args.color_distortion)
         train_transform.transforms.insert(3, ColorAugmentation)
 
-    if args.crc_size != 272:
+    if args.image_size != 272:
         train_transform.transforms.insert(0, transforms.Resize(
-            (args.crc_size, args.crc_size), interpolation=transforms.functional.InterpolationMode.BICUBIC))
+            (args.image_size, args.image_size), interpolation=transforms.functional.InterpolationMode.BICUBIC))
 
     if args.cutout:
         train_transform.transforms.append(Cutout(args.cutout_length))
@@ -270,9 +270,9 @@ def _data_transforms_crc(args):
         transforms.Normalize(CRC_MEAN, CRC_STD)
     ])
 
-    if args.crc_size != 272:
+    if args.image_size != 272:
         valid_transform.transforms.insert(0, transforms.Resize(
-            (args.crc_size, args.crc_size), interpolation=transforms.functional.InterpolationMode.BICUBIC))
+            (args.image_size, args.image_size), interpolation=transforms.functional.InterpolationMode.BICUBIC))
 
     return train_transform, valid_transform
 
@@ -300,9 +300,9 @@ def _data_transforms_bach(args):
         ColorAugmentation = ColorDistortion(args.color_distortion)
         train_transform.transforms.insert(3, ColorAugmentation)
 
-    if args.bach_size != 272:
+    if args.image_size != 272:
         train_transform.transforms.insert(0, transforms.Resize(
-            (args.bach_size, args.bach_size), interpolation=transforms.functional.InterpolationMode.BICUBIC))
+            (args.image_size, args.image_size), interpolation=transforms.functional.InterpolationMode.BICUBIC))
 
     if args.cutout:
         train_transform.transforms.append(Cutout(args.cutout_length))
@@ -313,9 +313,9 @@ def _data_transforms_bach(args):
         transforms.Normalize(BACH_MEAN, BACH_STD)
     ])
 
-    if args.bach_size != 272:
+    if args.image_size != 272:
         valid_transform.transforms.insert(0, transforms.Resize(
-            (args.bach_size, args.bach_size), interpolation=transforms.functional.InterpolationMode.BICUBIC))
+            (args.image_size, args.image_size), interpolation=transforms.functional.InterpolationMode.BICUBIC))
 
     return train_transform, valid_transform
 
@@ -343,9 +343,9 @@ def _data_transforms_os(args):
         ColorAugmentation = ColorDistortion(args.color_distortion)
         train_transform.transforms.insert(3, ColorAugmentation)
 
-    if args.os_size != 272:
+    if args.image_size != 272:
         train_transform.transforms.insert(0, transforms.Resize(
-            (args.os_size, args.os_size), interpolation=transforms.functional.InterpolationMode.BICUBIC))
+            (args.image_size, args.image_size), interpolation=transforms.functional.InterpolationMode.BICUBIC))
 
     if args.cutout:
         train_transform.transforms.append(Cutout(args.cutout_length))
@@ -356,9 +356,9 @@ def _data_transforms_os(args):
         transforms.Normalize(OS_MEAN, OS_STD)
     ])
 
-    if args.os_size != 272:
+    if args.image_size != 272:
         valid_transform.transforms.insert(0, transforms.Resize(
-            (args.os_size, args.os_size), interpolation=transforms.functional.InterpolationMode.BICUBIC))
+            (args.image_size, args.image_size), interpolation=transforms.functional.InterpolationMode.BICUBIC))
 
     return train_transform, valid_transform
 

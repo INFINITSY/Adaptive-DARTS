@@ -43,7 +43,7 @@ parser.add_argument('--grad_clip', type=float, default=5, help='gradient clippin
 # Datasets
 parser.add_argument('--data', type=str, default='./data', help='location of the data corpus')
 parser.add_argument('--dataset', type=str, default='ADP', help='choose dataset: ADP, BCSS, BACH, OS')
-parser.add_argument('--image_size', type=int, default=272, help='ADP image size')
+parser.add_argument('--image_size', type=int, default=272, help='CPATH image size')
 # color augmentation
 parser.add_argument('--color_aug', action='store_true', default=False, help='use color augmentation')
 parser.add_argument('--color_distortion', type=float, default=0.3, help='color distortion param')

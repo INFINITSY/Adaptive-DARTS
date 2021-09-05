@@ -32,12 +32,12 @@ parser = argparse.ArgumentParser("adaptive_darts")
 parser.add_argument('--data', type=str, default='../data', help='location of the data corpus')
 parser.add_argument('--dataset', type=str, default='ADP-Release1', help='valid datasets: cifar10, cifar100, ADP-Release1')
 parser.add_argument('--train_portion', type=float, default=0.5, help='portion of training data')
+parser.add_argument('--image_size', type=int, default=64, help='CPATH image size')
 # color augmentation
 parser.add_argument('--color_aug', action='store_true', default=False, help='use color augmentation')
 parser.add_argument('--color_distortion', type=float, default=0.3, help='color distortion param')
 # For ADP dataset only
 parser.add_argument('--adp_level', type=str, default='L3', help='ADP level')
-parser.add_argument('--adp_size', type=int, default=64, help='ADP image size')
 #################### 
 # Training details
 parser.add_argument('--gpu', type=str, default='0', help='gpu device id')
