@@ -16,7 +16,7 @@ Example (to search for DARTS_ADP_N4 on ADP):
 ```
 cd path_to_this_repo/cnn
 python train_search_adas.py \
---dataset ADP-Release1 --adp_size 64 \
+--dataset ADP-Release1 --image_size 64 \
 --adas --scheduler_beta 0.98 \
 --learning_rate 0.175 --batch_size 32 \
 --layers 4 --node 4 \
